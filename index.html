@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: rgba(30, 30, 46, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .search-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 18px 24px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #e0e0e0;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #667eea;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+
+        input[type="text"]::placeholder {
+            color: #888;
+        }
+
+        .engine-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .engine-option {
+            position: relative;
+        }
+
+        .engine-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .engine-label {
+            display: block;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .engine-option input[type="radio"]:checked + .engine-label {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .engine-label:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .url-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .url-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .info-text {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Search Portal</h1>
+        
+        <form class="search-form" id="searchForm">
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Enter URL or search query..." 
+                    required
+                    autocomplete="off"
+                >
+            </div>
+
+            <div class="engine-selector">
+                <div class="engine-option">
+                    <input type="radio" id="duckduckgo" name="engine" value="duckduckgo" checked>
+                    <label for="duckduckgo" class="engine-label">DuckDuckGo</label>
+                </div>
+                <div class="engine-option">
+                    <input type="radio" id="google" name="engine" value="google">
+                    <label for="google" class="engine-label">Google</label>
+                </div>
+                <div class="engine-option">
+                    <input type="radio" id="startpage" name="engine" value="startpage">
+                    <label for="startpage" class="engine-label">Startpage</label>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="search-btn">Search</button>
+                <button type="button" class="url-btn" onclick="goToUrl()">Go to URL</button>
+            </div>
+        </form>
+
+        <p class="info-text">
+            Select a search engine and enter your query, or click "Go to URL" to navigate directly
+        </p>
+    </div>
+
+    <script>
+        const searchForm = document.getElementById('searchForm');
+        const searchInput = document.getElementById('searchInput');
+
+        // Search engine URLs
+        const searchEngines = {
+            duckduckgo: 'https://duckduckgo.com/?q=',
+            google: 'https://www.google.com/search?q=',
+            startpage: 'https://www.startpage.com/do/search?q='
+        };
+
+        // Handle search form submission
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            performSearch();
+        });
+
+        // Allow Enter key to trigger search
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                performSearch();
+            }
+        });
+
+        function performSearch() {
+            const query = searchInput.value.trim();
+            if (!query) return;
+
+            const selectedEngine = document.querySelector('input[name="engine"]:checked').value;
+            const searchUrl = searchEngines[selectedEngine] + encodeURIComponent(query);
+            
+            window.location.href = searchUrl;
+        }
+
+        function goToUrl() {
+            let url = searchInput.value.trim();
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+
+            // Add https:// if no protocol is specified
+            if (!url.match(/^https?:\/\//i)) {
+                url = 'https://' + url;
+            }
+
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>
